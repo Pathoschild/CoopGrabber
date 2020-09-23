@@ -8,6 +8,7 @@ namespace DeluxeGrabber {
         public bool DoHarvestFlowers;
         public bool DoHarvestFruitTrees;
         public bool DoHarvestFarmCave;
+        public bool DoHarvestGreenhouse;
         public bool DoGainExperience;
         public int GlobalForageTileX;
         public int GlobalForageTileY;
@@ -20,6 +21,7 @@ namespace DeluxeGrabber {
             DoHarvestFlowers = true;
             DoHarvestFruitTrees = true;
             DoHarvestFarmCave = true;
+            DoHarvestGreenhouse = true;
             DoGainExperience = false;
             GrabberRange = 10;
             GlobalForageTileX = 6;

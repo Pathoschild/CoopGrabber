@@ -146,6 +146,7 @@ namespace DeluxeGrabber
         {
 
             AutograbBuildings();
+            AutograbGreenhouse();
             AutograbCrops();
             AutograbWorld();
         }
@@ -334,6 +335,69 @@ namespace DeluxeGrabber
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private void AutograbGreenhouse()
+        {
+
+            if (!_config.DoHarvestGreenhouse)
+            {
+                return;
+            }
+
+            if (!Game1.MasterPlayer.mailReceived.Contains("ccPantry"))
+            {
+                return;
+            }
+
+            foreach (GameLocation location in Game1.locations.Where(l => l.IsGreenhouse))
+            {
+                Object grabber = location.objects.Values.Where(o => o.Name.Contains("Grabber")).FirstOrDefault();
+
+                if ((grabber.heldObject.Value == null) || ((grabber.heldObject.Value as Chest).items.CountIgnoreNull() >= 36))
+                {
+                    return;
+                }
+
+                bool full = (grabber.heldObject.Value as Chest).items.CountIgnoreNull() >= 36;
+
+                foreach (TerrainFeature terrainFeature in location.terrainFeatures.Values)
+                {
+                    if (!full)
+                    {
+                        if (terrainFeature is HoeDirt dirt)
+                        {
+                            Object harvest = GetHarvest(dirt, dirt.currentTileLocation, location);
+                            if (harvest != null)
+                            {
+                                (grabber.heldObject.Value as Chest).addItem(harvest);
+                                if (_config.DoGainExperience)
+                                {
+                                    gainExperience(Farmer.foragingSkill, 3);
+                                }
+                            }
+                        }
+                        else if (terrainFeature is FruitTree fruitTree)
+                        {
+                            Object fruit = GetFruit(fruitTree, fruitTree.currentTileLocation, location);
+                            if (fruit != null)
+                            {
+                                (grabber.heldObject.Value as Chest).addItem(fruit);
+                                if (_config.DoGainExperience)
+                                {
+                                    gainExperience(Farmer.foragingSkill, 3);
+                                }
+                            }
+                        }
+                        full = (grabber.heldObject.Value as Chest).items.CountIgnoreNull() >= 36;
+                    }
+                }
+
+                if (grabber != null && (grabber.heldObject.Value as Chest).items.CountIgnoreNull() > 0)
+                {
+                    grabber.showNextIndex.Value = true;
                 }
             }
         }
