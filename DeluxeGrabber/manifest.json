@@ -1,8 +1,8 @@
 ﻿{
    "Name": "Deluxe Auto-Grabber",
    "Author": "stokastic",
-   "Version": "2.5.1",
-   "Description": "Allows use of autograbber for coops, crops, and forage",
+   "Version": "2.5.2-unofficial.4-tonrzn",
+   "Description": "Allows use of autograbber for coops, crops, greenhouse and forage",
    "UniqueID": "stokastic.DeluxeGrabber",
    "EntryDll": "DeluxeGrabber.dll",
    "MinimumApiVersion": "3.0.0",
